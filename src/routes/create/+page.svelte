@@ -3,6 +3,7 @@
   import { open } from "@tauri-apps/plugin-dialog";
   import { onMount } from "svelte";
   import type { Version } from '../../../static/types';
+    import { goto } from "$app/navigation";
 
   let name = "";
   let path = "";
@@ -29,9 +30,17 @@
     console.log({ name, path, selectedVersion });
     // your project creation logic
   }
+
+  function goBack() {
+    goto('/');
+  }
 </script>
 
-<h1>Create Project</h1>
+<div class="create-page">
+  <h1>
+  <span style="float:right; cursor:pointer;" on:click={goBack}>×</span>
+  Create Project
+</h1>
 
 <div class="form-group">
   <label>Project Name</label>
@@ -51,68 +60,74 @@
   <select bind:value={selectedVersion}>
     <option disabled value="">Select version</option>
     {#each versions as ver}
-      {#if ver.patch > 0}
-      <option value={ver.major}.{ver.minor}.{ver.patch}>Fabric {ver.major}.{ver.minor}.{ver.patch}</option>
-      {:else}
-      <option value={ver.major}.{ver.minor}>Fabric {ver.major}.{ver.minor}</option>
-      {/if}
+      <option value={ver.major}.{ver.minor}.{ver.patch}>
+        Fabric {ver.major}.{ver.minor}{ver.patch > 0 ? "." + ver.patch : ""}
+      </option>
     {/each}
   </select>
 </div>
 
 <button on:click={createProject}>Create</button>
+</div>
 
 <style>
-  :root {
-    margin: 20px;
-  }
-  .form-group {
-    margin: 16px 0;
-    display: flex;
-    flex-direction: column;
-  }
-  label {
-    font-weight: bold;
-    margin-bottom: 6px;
-  }
-  input {
-    padding: 8px;
-    border-radius: 4px;
-    border: 1px solid #444;
-    background: #111;
-    color: #eee;
-  }
-  .path-select {
-    display: flex;
-    gap: 8px;
-    align-items: center;
-  }
-  .path-display {
-    flex: 1;
-    padding: 8px;
-    background: #111;
-    border: 1px solid #444;
-    border-radius: 4px;
-    color: #ccc;
-    overflow: hidden;
-    white-space: nowrap;
-    text-overflow: ellipsis;
-  }
-  select {
-    padding: 8px;
-    border-radius: 4px;
-    background: #111;
-    color: #eee;
-    border: 1px solid #444;
-  }
-  button {
-    padding: 10px 18px;
-    background: #333;
-    color: #eee;
-    border: none;
-    border-radius: 4px;
-  }
-  button:hover {
-    background: #444;
-  }
+.create-page {
+  margin: 20px;
+}
+h1 {
+  position: relative;
+  font-size: 1.8em;
+}
+h1 span {
+  font-size: 1.5em;
+}
+.form-group {
+  margin: 16px 0;
+  display: flex;
+  flex-direction: column;
+}
+label {
+  font-weight: bold;
+  margin-bottom: 6px;
+}
+input {
+  padding: 8px;
+  border-radius: 4px;
+  border: 1px solid #444;
+  background: #111;
+  color: #eee;
+}
+.path-select {
+  display: flex;
+  gap: 8px;
+  align-items: center;
+}
+.path-display {
+  flex: 1;
+  padding: 8px;
+  background: #111;
+  border: 1px solid #444;
+  border-radius: 4px;
+  color: #ccc;
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+}
+select {
+  padding: 8px;
+  border-radius: 4px;
+  background: #111;
+  color: #eee;
+  border: 1px solid #444;
+}
+button {
+  padding: 10px 18px;
+  background: #333;
+  color: #eee;
+  border: none;
+  border-radius: 4px;
+}
+button:hover {
+  background: #444;
+}
 </style>
