@@ -55,6 +55,7 @@
 .error {
   margin: 0 30px;
   margin-top: 8px;
+  color: #ff7575;
 }
 
 .recent-list {
