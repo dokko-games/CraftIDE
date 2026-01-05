@@ -10,3 +10,11 @@ pub struct Project {
     pub target_version: Version,
     pub description: String, // this will default to something like "my cool awesome mod!"
 }
+impl Project {
+    pub fn get_mod_id(&self) -> String {
+        let mut s = self.author.clone();
+        s.push_str(".craftide.");
+        s.push_str(&self.name);
+        s
+    }
+}
