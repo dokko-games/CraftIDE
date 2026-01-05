@@ -3,7 +3,6 @@
 **CraftIDE** is a **desktop Minecraft mod creation program** built with **Svelte** and **Tauri**, targeting **Fabric for Minecraft Java Edition 26.1+**.
 
 CraftIDE is designed to **accelerate mod development without boxing developers in**. It generates boilerplate for common mod elements (blocks, items, etc.) while **always allowing full manual control and custom code**.
----
 
 ## ✨ Features
 
