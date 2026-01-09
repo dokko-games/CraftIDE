@@ -12,13 +12,15 @@ pub async fn create_project(
     path: String,
     selected_version: String,
 ) -> Result<(), String> {
+    // Convert the string to a Version
     let version: version::Version = selected_version.parse().unwrap();
-
+    // Create the metadata for the recent project list
     let new_recent_project = recent::RecentProject {
         name: name.clone(),
         path: PathBuf::from(path.clone()),
         target_version: version.clone(),
     };
+    // Create the actual project
     let new_project = project::Project {
         name,
         path: PathBuf::from(path),
@@ -26,7 +28,9 @@ pub async fn create_project(
         author: whoami::username().unwrap_or("Me".into()),
         description: "My mod created with CraftIDE".into()
     };
+    // Add the project to the recent list
     add_recent_project(app, new_recent_project).await;
+    // Set the current project to the created project
     set_current_project(&state, new_project);
     println!("{:?}", state.current_project.lock().unwrap().clone());
     Ok(())

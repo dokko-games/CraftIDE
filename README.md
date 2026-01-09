@@ -2,36 +2,35 @@
 
 **CraftIDE** is a **desktop Minecraft mod creation program** built with **Svelte** and **Tauri**, targeting **Fabric for Minecraft Java Edition 26.1+**.
 
-CraftIDE is designed to **accelerate mod development without boxing developers in**. It generates boilerplate for common mod elements (blocks, items, etc.) while **always allowing full manual control and custom code**.
+CraftIDE is designed to **accelerate mod development without boxing developers in**. It generates boilerplate code for common mod elements (blocks, items, etc.) while **always allowing full manual control and custom code**.
 
 ## ✨ Features
 
-* ⚡ **Fast, lightweight desktop app**. With a svelte frontend + rust backend, CraftIDE is optimized for low resource consumption and good performance
-* 🧩 **Class generation** for:
+* ⚡ **Fast and lightweight**. With a svelte frontend + rust backend, CraftIDE is optimized for low resource consumption and good performance
+* 🧩 **Class generation** for modded objects like:
   * Blocks
   * Items
-  * Recipes
+  * Mixins
   * More mod components over time
 * ✍️ **Fully editable generated code**
 
   * Modify generated classes freely
   * Write your own Java code alongside generated files
+* 🖥️ **Built-in node-based code editor**
+  * Makes coding custom features and tools easier for new developers
+  * Has no performance cost, as it compiles to java automatically
+  * Intuitive for developers who might have used **Unreal Engine's blueprint system** or **Scratch**
 * 🎨 **Built-in texture editor**
-
-  * Simple pixel editor for block & item textures
+  * Simple pixel editor for textures
   * Asset previews
 * 📁 **Project & asset management**
+  * Simple folder structure similar to that in game engines like **Unity** or **Unreal Engine**
 * 🧠 **Mod metadata & config generation**
-  * Mod ID
+  * Mod Data
   * Versions
   * Dependencies
-* 🖥️ **Cross-platform**
 
-  * Windows
-  * macOS
-  * Linux
-
-> CraftIDE helps you move faster, but never hides how Minecraft modding actually works.
+> CraftIDE helps you move faster, but never hides how Minecraft's modding engine actually works.
 
 ---
 
@@ -39,8 +38,8 @@ CraftIDE is designed to **accelerate mod development without boxing developers i
 
 * **Frontend:** [Svelte](https://svelte.dev)
 * **Desktop Runtime:** [Tauri](https://tauri.app)
-* **Language:** TypeScript / JavaScript
-* **Minecraft Target:** Java Edition **26.1+**
+* **Language:** TypeScript / JavaScript, Rust
+* **Targetted Minecraft Version:** Java Edition **26.1+**
 
 ---
 
