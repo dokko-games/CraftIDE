@@ -2,7 +2,7 @@ use std::{path::PathBuf, collections::HashSet};
 
 use tauri::{AppHandle, Manager};
 
-use crate::{core::state::AppState, models::{project, recent::{self, RecentProject}, version}};
+use crate::{core::state::AppState, models::{project, recent, version}};
 //TODO: validate name on svelte: no first numbers, no weird letters
 #[tauri::command]
 pub async fn create_project(
@@ -20,13 +20,19 @@ pub async fn create_project(
         path: PathBuf::from(path.clone()),
         target_version: version.clone(),
     };
+    let author = whoami::username().unwrap_or("Me".into());
+    let mut mod_id = author.clone();
+    mod_id.push_str(".craftide.");
+    mod_id.push_str(&name);
     // Create the actual project
     let new_project = project::Project {
         name,
         path: PathBuf::from(path),
+        mod_id,
         target_version: version,
         author: whoami::username().unwrap_or("Me".into()),
-        description: "My mod created with CraftIDE".into()
+        description: "My mod created with CraftIDE".into(),
+        generators: Vec::new()
     };
     // Add the project to the recent list
     add_recent_project(app, new_recent_project).await;
@@ -60,7 +66,7 @@ pub async fn add_recent_project(app: AppHandle, new_project: recent::RecentProje
     update_recent_projects(app, recents).await;
 }
 #[tauri::command]
-pub async fn update_recent_projects(app: AppHandle, mut recents: Vec<RecentProject>) {
+pub async fn update_recent_projects(app: AppHandle, mut recents: Vec<recent::RecentProject>) {
     let app_data = app.path().app_data_dir().unwrap();
 
     // remove duplicates, keeping the first (most recent) occurrence
