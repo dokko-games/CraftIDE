@@ -3,13 +3,14 @@
   import { open } from "@tauri-apps/plugin-dialog";
   import { onMount } from "svelte";
   import type { Version } from '../../../static/types';
-    import { goto } from "$app/navigation";
+  import { goto } from "$app/navigation";
 
   let name = "";
   let path = "";
   let versions: Version[] = [];
   let selectedVersion = "";
   let errorMessage = "";
+
 
   // get versions from Rust on mount
   onMount(async () => {
@@ -33,6 +34,12 @@
       errorMessage = "Project name cannot be empty.";
       return;
     }
+    let fixedName = fixNameForId(name);
+
+    if (!fixedName) {
+      errorMessage = "Project name must start with a letter and only contain characters from a-Z and 0-9 or spaces";
+      return;
+    }
 
     if (!path.trim()) {
       errorMessage = "Project path cannot be empty.";
@@ -44,9 +51,11 @@
     }
     await invoke("create_project", {
         name,
+        fixedName,
         path,
         selectedVersion,
       });
+    await invoke("save_current_project");
 
     // success → navigate
     goto("/");
@@ -55,6 +64,22 @@
   function goBack() {
     goto('/');
   }
+  function fixNameForId(str: string) {
+    const fixed = str
+      .toLowerCase()
+      .trim()
+      .replace(/\s+/g, "_")
+      .replace(/[^a-z0-9_]/g, "");
+
+    // must start with a letter
+    if (!/^[a-z]/.test(fixed)) {
+      return "";
+    }
+
+  return fixed;
+}
+
+
 </script>
 
 <div class="create-page">
@@ -74,6 +99,7 @@
     <span class="path-display">{path || "No folder selected"}</span>
     <button on:click={selectFolder}>Choose…</button>
   </div>
+  <p class="note">Note: Files will be created directly in the selected folder, not in a sub-folder.</p>
 </div>
 
 <div class="form-group">
@@ -93,6 +119,9 @@
 </div>
 
 <style>
+.note {
+  color: #aaa;
+}
 .create-page {
   margin: 20px;
 }

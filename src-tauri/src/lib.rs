@@ -18,7 +18,8 @@ pub fn run() {
         .invoke_handler(tauri::generate_handler![
             get_available_mc_versions,
             commands::project::get_recent_projects,
-            commands::project::create_project
+            commands::project::create_project,
+            commands::storage::save_current_project
         ])
         .manage(core::state::AppState {
             current_project: Mutex::new(None),

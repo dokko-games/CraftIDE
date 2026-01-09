@@ -1,1 +1,2 @@
-Write project files to path
+Read project files from path
+Recent list should read data from project and not store it in file

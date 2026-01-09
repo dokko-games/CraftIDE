@@ -9,6 +9,7 @@ pub async fn create_project(
     app: AppHandle,
     state: tauri::State<'_, AppState>,
     name: String,
+    fixed_name: String,
     path: String,
     selected_version: String,
 ) -> Result<(), String> {
@@ -23,7 +24,7 @@ pub async fn create_project(
     let author = whoami::username().unwrap_or("Me".into());
     let mut mod_id = author.clone();
     mod_id.push_str(".craftide.");
-    mod_id.push_str(&name);
+    mod_id.push_str(&fixed_name);
     // Create the actual project
     let new_project = project::Project {
         name,
@@ -41,7 +42,6 @@ pub async fn create_project(
     println!("{:?}", state.current_project.lock().unwrap().clone());
     Ok(())
 }
-#[tauri::command]
 pub fn set_current_project(state: &tauri::State<AppState>, project: project::Project) {
     let mut current = state.current_project.lock().unwrap();
     *current = Some(project);
@@ -54,7 +54,6 @@ pub async fn get_recent_projects(app: AppHandle) -> Result<Vec<recent::RecentPro
 
     Ok(recents)
 }
-#[tauri::command]
 pub async fn add_recent_project(app: AppHandle, new_project: recent::RecentProject) {
     let app_data = app.path().app_data_dir().unwrap();
     // load existing
@@ -65,7 +64,6 @@ pub async fn add_recent_project(app: AppHandle, new_project: recent::RecentProje
 
     update_recent_projects(app, recents).await;
 }
-#[tauri::command]
 pub async fn update_recent_projects(app: AppHandle, mut recents: Vec<recent::RecentProject>) {
     let app_data = app.path().app_data_dir().unwrap();
 
