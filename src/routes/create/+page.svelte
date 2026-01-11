@@ -58,7 +58,7 @@
     await invoke("save_current_project");
 
     // success → navigate
-    goto("/");
+    goto("/editor");
   }
 
   function goBack() {

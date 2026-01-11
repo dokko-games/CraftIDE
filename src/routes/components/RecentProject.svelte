@@ -1,6 +1,7 @@
 <script lang="ts">
   import type { Project } from "../../../static/types";
   import { invoke } from "@tauri-apps/api/core";
+  import { goto } from "$app/navigation";
 
   export let project: Project;
   let error = "";
@@ -9,6 +10,7 @@
         await invoke("open_project", {
           projectPath: project.path, // MUST match Rust parameter name
         });
+        goto("/editor");
       } catch (err) {
         error = `Error: ${err}`;
       }
